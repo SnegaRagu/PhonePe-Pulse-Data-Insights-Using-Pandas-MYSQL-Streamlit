@@ -59,7 +59,7 @@ Phonepe Pulse Data Insights Dashboard provides following features:
 
   1. Finance Analysis
   2. Dashboard Development
-  3. Interactive Analysis
+  3. Predictive Analysis
   4. Geospatial Visualization
 
 **5. References**
