@@ -65,11 +65,18 @@ Phonepe Pulse Data Insights Dashboard provides following features:
 **5. References**
 
 Python Documentation: https://docs.python.org/
+
 Pandas Documentation: https://pandas.pydata.org/docs/
+
 Plotly Documentation: https://plotly.com/python/
+
 MYSQL Documentation: https://dev.mysql.com/doc/
+
 SQLAlchemy Documentation:https://docs.sqlalchemy.org/
+
 Streamlit Documentation: https://docs.streamlit.io/
+
 Git Documentation: https://git-scm.com/doc
+
 Numpy Documentation: https://numpy.org/doc/stable/user/
 
