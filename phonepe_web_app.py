@@ -5,7 +5,7 @@ import numpy as np
 
 import mysql.connector as msql
 from mysql.connector import Error
-from sqlalchemy import create_engine, text, inspect
+from sqlalchemy import create_engine, text
 
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -17,6 +17,8 @@ import json
 import requests
 
 import warnings
+
+from statsmodels.tsa.arima.model import ARIMA
 
 # Database Connection Setup
 
@@ -324,14 +326,25 @@ def user_engage_analysis():
                             xaxis_tickangle=-45,
                             margin=dict(t=0,b=0))
         st.plotly_chart(fig, use_container_width=True)
-        #with st.expander("Detailed Info of Users and App Open Volume"):
-            #st.dataframe(df1)
 
-    with st.expander("Detailed Info of Registered Users Data"):
-            st.dataframe(df)
+        with st.expander("Detailed Info of Registered Users Data"):
+                st.dataframe(df)
 
+    with st.container(border=True):
+    	st.markdown("""
+**Spatial Insights**
+
+* Maharashtra leads with 28.01 crore users and 16.25 billion app opens
+* Consistent user growth trend across all states
+* Low Engagement in smaller states
+
+**Recommendations**
+
+* Target Low-Performing States launch awareness campaigns and local language integration
+* Boost Engagement in High-User States
+* Partner with state governments and provide good network infrastructure on northeastern regions""")
+        
     st.markdown("<h3 style='color: blue;'>Device Dominance Distribution</h3>", unsafe_allow_html=True)
-
     col1, col2 = st.columns([0.3, 0.7])
     query = """SELECT brand, SUM(user_count) as user_count FROM aggregated_user GROUP BY brand ORDER BY user_count ASC;"""
     df = pd.read_sql(query, engine)
@@ -406,6 +419,15 @@ def user_engage_analysis():
         with st.expander(f"Detailed Info on {selected_brand} App Open Rate"):
             st.dataframe(df1)
 
+    with st.container(border=True):
+        st.markdown("""
+**Insights**
+
+* Strong user growth rate and app-open rate after 2020
+* Top engagement in big states
+* Lower engagement in smaller states   
+                    """)
+
     st.markdown("<h4 style ='color: Skyblue;'>Underutilized Brands and App Open Rates</h4>", unsafe_allow_html=True)
 
     high_user_threshold = 5000
@@ -424,6 +446,19 @@ def user_engage_analysis():
 
         with st.expander(f"Detailed Info on Underutilized data"):
             st.dataframe(under_df)
+
+    with st.container(border=True):
+        st.markdown("""
+**Insights**
+
+* Xiaomi (2019-2020) --> Strong user base early on, but app usage lagged 
+                    --> Missed opportunity for engagement during peak adoption years.
+* Samsung (2019-2020) --> Moderate presence with standout usage in West Bengal
+                      --> Early signs of region-specific engagement potential.
+* Vivo (2019-2021) --> Low app engagement
+                   --> Highlighting need for activation strategies
+					""")
+        
 def user_reg_analysis():
     st.markdown("<h3 style='color: blue;'>User Registration Analysis</h3>", unsafe_allow_html=True)
     # -------------------- GEO BUBBLE MAP -------------------- # 
@@ -477,6 +512,19 @@ def user_reg_analysis():
         with st.expander(f"Detailed Info"):
             st.dataframe(df)
 
+    with st.container(border=True):
+        st.markdown("""
+**Spatial Insights**
+
+* Overall PAN INDIA reach is strong
+* High Concentration in South India
+* Tier-1 cities like Mumbai, Delhi, Hyderabad, and Chennai has major users
+
+**Recommendations**
+
+* Concentrate on Tier-2 & Tier-3 Cities in High-Performing States like Maharastra, West bengal, Tamilnadu, Karnataka, UP, Andhra.
+* Target Underpenetrated Regions (Northeast & Central India)
+					""")
     # -------------------------------------------- TOP 15 USERS STATEWISE -------------------------------------- #
 
     selected_year = st.sidebar.selectbox("Choose Year: ", year_list()+["All"])
@@ -1316,6 +1364,27 @@ def payment_mode_analysis():
         with st.expander(f"Detailed Info on {selected_state} in {selected_year} - {selected_quarter}"):
             st.dataframe(df)
 
+    if selected_state == "All":
+        with st.container(border=True):
+            st.markdown("""
+**Insight**
+
+* Consistent Growth in Maharastra, Andhra, Telangana, UP.
+* Stagnation or Low Penetration in states like north eastern region.
+* States such as Kerala, West Bengal, and Punjab show intermittent spikes
+                        
+* Merchant Payments Dominates
+* Peer-to-Peer (P2P) Payments See Broad Usage but Lower Intensity
+* Recharge, Financial Services & Others are Underutilized Across Most Regions
+
+**Recommendations**
+
+* Double Down marketing on High-Growth States and Merchant usage
+* Promote with local influencers on low pernetration states and increase network infrastructure, introduce referral bonuses for P2P payments
+* Run seasonal cashback offers, festival promotions on spikey states and promote offers on other and finacial payments like loans.
+                        
+					""")
+
 def yearwise_analysis():    
     selected_year = st.sidebar.selectbox("Choose Year: ", ["All"]+year_list(), key="year_selectbox")
     st.markdown(f"<h4 style ='color: skyblue;'>Year({selected_year}) Statewise - High and Low Volumed Transaction</h4>", unsafe_allow_html=True)
@@ -1539,6 +1608,21 @@ def yearwise_analysis():
         with st.expander("Year Over year Rising Growth"):
             st.dataframe(rising)
 
+    with st.container(border=True):
+        st.markdown("""
+**Insights**
+
+* After 2022, Tamilnadu downgraded from top 10
+* Several northeastern and hilly districts penetration increases
+* Inconsistent digital outreach since uneven growth
+
+**Recommendations**
+
+* Identify and replicate high-impact models like digital camps from top-growth districts and pincodes
+* Deploy regional brand ambassadors and local incentives in mid-growth states to increase trust
+* Integrate payment with welfare schemes for lagging states, districts and pincodes
+					""")
+ 
 def overall_analysis():
     selected_state = st.sidebar.selectbox("Choose State: ", ['All'] + state_list(), key="state_selectbox")
 
@@ -1642,6 +1726,24 @@ def fourth_page():
 
         with st.expander("Detailed Info On Insurance Metrics"):
             st.dataframe(df)
+    with st.container(border=True):
+        st.markdown("""
+**Spatial Insights**
+                    
+* High Concentration[near or above 15k] in Southern India (Chennai, Bengaluru, and Hyderabad appear as hotspots)
+* Moderate to High Values[between 5 and 15k] in Western India (Mumbai and Pune show significant metric)
+* Sparse but Intense Activity in Eastern India (isolated high-metric spots like Kolkatta
+* High Density and Lower Metric on Northern India (Uttar Pradesh, Bihar, parts of Rajasthan and Madhya Pradesh)
+* North-east border and central region shows highly sparse (high metric near Sikkim)
+                    
+**Recommendations**
+
+* Southern --> Scale premium offerings and customer experience optimization
+* Western --> Optimize existing metro(best) strategies via segmentation
+* Eastern --> Reaching smaller towns from a strong center
+* Northern --> Go offline, speak the local language, and work with local shops and partners to build connections
+* North-Eastern and Central --> Focus on special offerings or partner with government programs to build trust
+                    """)
 
     st.markdown(f"<h4 style ='color: Skyblue;'>Statewise Proiritization</h4>", unsafe_allow_html=True)
 
@@ -1695,6 +1797,85 @@ def fourth_page():
         with st.expander("Detailed Info On State prioritization"):
             st.dataframe(df)
 
+    with st.container(border=True):
+        st.markdown("""
+**Insights**
+
+* Best (Red): States with high growth and high volume — prime targets for investment or focus.
+* Rising (Blue): States with high growth but low volume — emerging markets with potential.
+* Saturated (Pink): States with low growth but high volume — mature or saturated markets.
+* Idle (Green): States with low growth and low volume — underdeveloped or untapped markets.
+                    
+**Recommendations**
+                    
+* Focus on Best states for major growth initiatives to leverage both volume and growth.
+* Develop customized approaches for “Rising” states, such as:
+    --> Building local partnerships.
+    --> Investing in marketing.
+* In “Saturated” states, focus on retention, efficiency, or exploring adjacent markets.
+* Monitor “Idle” states periodically to identify any changes or new opportunities.
+                    """)
+
+    st.markdown(f"<h4 style ='color: Skyblue;'>Statewise Growth Trajectory</h4>", unsafe_allow_html=True)
+
+    selected_state = st.sidebar.selectbox("Choose State: ", state_list())
+    query = f"""SELECT state, year, quarter, insurance_count, insurance_amount
+                FROM aggregated_insurance WHERE state='{selected_state}'
+                GROUP BY year, quarter"""
+    df =  pd.read_sql(query, engine)
+
+    # Convert year & quarter to datetime
+    df['quarter'] = df['quarter'].astype(str).str.extract('Q(\d)').astype(int)
+    df['year'] = df['year'].astype(int)
+    df['Date'] = pd.PeriodIndex(year=df['year'], quarter=df['quarter'], freq='Q').to_timestamp()
+    df = df.sort_values('Date')
+    df.set_index('Date', inplace=True)
+
+    # ARIMA FORECAST
+    model = ARIMA(df['insurance_count'], order=(1,1,1))
+    model_fit = model.fit()
+
+    #  Forecast next 4 quarters ---
+    forecast_steps = 4
+    forecast = model_fit.forecast(steps=forecast_steps)
+
+    # Generate forecast dates ---
+    forecast_dates = pd.date_range(start=df.index[-1] + pd.offsets.QuarterEnd(), periods=forecast_steps, freq='Q')
+
+    # Plot using Plotly ---
+    fig = go.Figure()
+
+    # Historical line
+    fig.add_trace(go.Scatter(
+        x=df.index,
+        y=df['insurance_count'],
+        mode='lines+markers',
+        name='Historical',
+        line=dict(color='blue')
+    ))
+
+    # Forecast line
+    fig.add_trace(go.Scatter(
+        x=forecast_dates,
+        y=forecast,
+        mode='lines+markers',
+        name='Forecast',
+        line=dict(dash='dash', color='orange')
+    ))
+
+    # Layout
+    fig.update_layout(
+        title=f'{selected_state} - Insurance Count Growth Trajectory',
+        xaxis_title='Date',
+        yaxis_title='Insurance Count',
+        legend=dict(x=0.01, y=0.99),
+        template='plotly_white',
+        hovermode='x unified'
+    )
+    with st.container(border=True):
+        st.plotly_chart(fig)
+        with st.expander("Detailed Info"):
+            st.dataframe(df)
 
 # ------------------------------------------- MAIN FUNCTION -------------------------------------------------- #
 
