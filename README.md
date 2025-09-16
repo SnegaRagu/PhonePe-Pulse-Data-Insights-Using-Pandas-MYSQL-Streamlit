@@ -1,8 +1,8 @@
-**Introduction**
+# Introduction
 
 The PhonePe Pulse Dashboard is a user-friendly Streamlit application designed to provide insights into user engagement, transaction trends, and insurance-related data across states, districts, and pincodes. The data is sourced from the official PhonePe Pulse GitHub repository, converted from JSON to CSV format, and stored in a MySQL database to enable efficient querying and analysis.
 
-**Project Overview**
+# Project Overview
 
 Phonepe Pulse Data Dashboard consists of following elements.
 
@@ -13,7 +13,11 @@ Phonepe Pulse Data Dashboard consists of following elements.
   * Created interactive charts to show the data clearly
   * Shared insights from pulse data
 
-**Table Of Contents**
+# Streamlit Application Link
+
+[🚀 Launch Streamlit Application](https://phonepe-pulse-data-insights-using-pandas-mysql-app-rzsce6zedl2.streamlit.app/)
+
+# Table Of Contents
 
   1. Key technologies
   2. Installation
@@ -21,7 +25,7 @@ Phonepe Pulse Data Dashboard consists of following elements.
   4. Features
   5. References
 
-**1. Key Technologies**
+## 1. Key Technologies
 
   * GIT
   * Python
@@ -34,26 +38,22 @@ Phonepe Pulse Data Dashboard consists of following elements.
   * Geopandas
   * Streamlit
 
-**2. Installation**
+## 2. Installation
 
-To run this application, you need to follow these below steps
+To run this application locally, you need to follow these below steps:
 
-  1. Install Python on your machine
-  2. Install required libraies using pip
-     
-        **pip install pandas pymysql streamlit plotly sqlalchemy gitpython numpy mysql-connector-python**
+ 1. Install and configure MYSQL server on your machine
+ 2. Install packages mentioned in **requirements.txt**
 
-  3. Install and configure MYSQL server on your machine
-
-**3. Usage**
+## 3. Usage
 
 Once the project application is running, users can access the application in web browser. Select page to check the analysis and visualization Inference for user, transaction and insurance data.
 
   1. Merge the ETL data to MYSQL Server: PHONEPE PULSE DB ETL.ipynb
   2. Configure application with your database connection details
-  3. Run the application via CLI: phonepe_web_app.py
+  3. Run the application via CLI: **streamlit run phonepe_web_app.py**
 
-**4. Features**
+## 4. Features
 
 Phonepe Pulse Data Insights Dashboard provides following features:
 
@@ -62,7 +62,7 @@ Phonepe Pulse Data Insights Dashboard provides following features:
   3. Predictive Analysis
   4. Geospatial Visualization
 
-**5. References**
+## 5. References
 
 Python Documentation: https://docs.python.org/
 
@@ -79,4 +79,3 @@ Streamlit Documentation: https://docs.streamlit.io/
 Git Documentation: https://git-scm.com/doc
 
 Numpy Documentation: https://numpy.org/doc/stable/user/
-
