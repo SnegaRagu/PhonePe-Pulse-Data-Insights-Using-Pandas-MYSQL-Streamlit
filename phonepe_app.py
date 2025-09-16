@@ -15,14 +15,17 @@ import warnings
 
 from statsmodels.tsa.arima.model import ARIMA
 
-# Get MySQL credentials from Streamlit secrets
-db_config = st.secrets["mysql"]
+from dotenv import load_dotenv
 
-# Construct connection string
-DB_USER = db_config["user"]
-DB_PASSWORD = db_config["password"]
-DB_HOST = db_config["host"]
-DB_NAME = db_config["database"]
+# Loading Environment Variables
+load_dotenv()
+
+# Fetching credentials securely
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+DB_NAME = os.getenv("DB_NAME")
 
 # Validating Credentials before connecting
 if not all([DB_USER, DB_PASSWORD, DB_HOST, DB_NAME]):
@@ -31,7 +34,7 @@ if not all([DB_USER, DB_PASSWORD, DB_HOST, DB_NAME]):
 
 # Creating MYSQL Connection
 try:
-    engine = create_engine(f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}")
+    engine = create_engine(f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
     st.success("✅ Successfully connected to database!")
 except:
     st.error(f"❌ Could not connect to database: {e}")
@@ -1897,5 +1900,6 @@ st.set_page_config(layout="wide")
 selected_page = st.sidebar.radio("Phonepe Pulse Insights", list(pages.keys()))
 
 pages[selected_page]()
+
 
 
