@@ -13,10 +13,6 @@ Phonepe Pulse Data Dashboard consists of following elements.
   * Created interactive charts to show the data clearly
   * Shared insights from pulse data
 
-# Streamlit Application Link
-
-[🚀 Launch Streamlit Application](https://phonepe-pulse-data-insights-using-pandas-mysql-app-rzsce6zedl2.streamlit.app/)
-
 # Table Of Contents
 
   1. Key technologies
@@ -47,7 +43,12 @@ To run this application locally, you need to follow these below steps:
 
 ## 3. Usage
 
-Once the project application is running, users can access the application in web browser. Select page to check the analysis and visualization Inference for user, transaction and insurance data.
+To run this application,
+
+ 1. Create DB and Tables via PHONEPE PULSE DB ETL.ipynb
+ 2. Run the application via CLI: **streamlit run phonepe_app.py**
+
+Once the project application is running, users can access in web browser. Select page to check the analysis and visualization Inference for user, transaction and insurance data. 
 
 ## 4. Features
 
