@@ -15,25 +15,17 @@ import warnings
 
 from statsmodels.tsa.arima.model import ARIMA
 
-import os
+# Get MySQL credentials from Streamlit secrets
+db_config = st.secrets["mysql"]
 
-from dotenv import load_dotenv
-
-# Loading Environment Variables
-load_dotenv()
-
-# Fetching credentials securely
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-
-print("DB_USER:", os.getenv("DB_USER"))
-print("DB_PASSWORD:", os.getenv("DB_PASSWORD"))
+# Construct connection string
+DB_USER = db_config["user"]
+DB_PASSWORD = db_config["password"]
+DB_HOST = db_config["host"]
+DB_NAME = db_config["database"]
 
 # Validating Credentials before connecting
-if not all([DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME]):
+if not all([DB_USER, DB_PASSWORD, DB_HOST, DB_NAME]):
     st.error("❌ Database credentials missing! Check your .env file.")
     st.stop()
 
@@ -1905,3 +1897,4 @@ st.set_page_config(layout="wide")
 selected_page = st.sidebar.radio("Phonepe Pulse Insights", list(pages.keys()))
 
 pages[selected_page]()
+
