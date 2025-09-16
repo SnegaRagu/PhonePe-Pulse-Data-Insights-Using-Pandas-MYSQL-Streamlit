@@ -49,10 +49,6 @@ To run this application locally, you need to follow these below steps:
 
 Once the project application is running, users can access the application in web browser. Select page to check the analysis and visualization Inference for user, transaction and insurance data.
 
-  1. Merge the ETL data to MYSQL Server: PHONEPE PULSE DB ETL.ipynb
-  2. Configure application with your database connection details
-  3. Run the application via CLI: **streamlit run phonepe_web_app.py**
-
 ## 4. Features
 
 Phonepe Pulse Data Insights Dashboard provides following features:
