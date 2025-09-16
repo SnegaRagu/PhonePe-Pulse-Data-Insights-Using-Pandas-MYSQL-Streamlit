@@ -31,7 +31,7 @@ if not all([DB_USER, DB_PASSWORD, DB_HOST, DB_NAME]):
 
 # Creating MYSQL Connection
 try:
-    engine = create_engine(f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
+    engine = create_engine(f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}")
     st.success("✅ Successfully connected to database!")
 except:
     st.error(f"❌ Could not connect to database: {e}")
@@ -1897,4 +1897,5 @@ st.set_page_config(layout="wide")
 selected_page = st.sidebar.radio("Phonepe Pulse Insights", list(pages.keys()))
 
 pages[selected_page]()
+
 
