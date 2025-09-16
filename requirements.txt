@@ -3,7 +3,6 @@ numpy
 streamlit
 SQLalchemy
 plotly
-json
 requests
 mysql-connector-python
 statsmodels
